@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
+/*Los vehículos eléctricos en promedio consumen 16 kWh cada 100 km recorridos.
+Además, si su capacidad de carga supera los 1200 kg, debe sumarse un 15%
+adicional al consumo. El valor promedio a futuro podría cambiar para nuevos
+modelos.
+*/
+
 namespace Dsw2026Ej5.Domain;
 
 public class VehiculoElectrico : Vehiculo
@@ -21,6 +27,17 @@ public class VehiculoElectrico : Vehiculo
 
     public override double CalcularConsumo(double kilometros)
     {
-        return kilometros * kwhBase;
+        double consumo = 0;
+
+        if (GetCapacidadCarga() > 1200)
+        {   
+            consumo = kilometros* (kwhBase / 100);     
+            consumo = consumo + (consumo * 0.15);
+        } else
+        {
+            consumo = kilometros * (kwhBase / 100);
+        }
+
+        return consumo;
     }
 }

@@ -4,6 +4,10 @@ using System.Text;
 
 namespace Dsw2026Ej5.Domain;
 
+/*Los vehículos a combustible recorren una determinada cantidad de kilómetros
+por litro de combustible, pero si tienen más de 5 años de antigüedad se les suma
+una determinada cantidad de litros extra cada 15 km recorridos*/
+
 public class VehiculoCombustible: Vehiculo
 {
     private double kilometrosPorLitro;
@@ -28,6 +32,19 @@ public class VehiculoCombustible: Vehiculo
 
     public override double CalcularConsumo(double kilometros)
     {
-        return kilometros * kilometrosPorLitro;
+        DateTime fechaActual = DateTime.Now;
+        int antiguedad = fechaActual.Year - GetAnio();
+        double consumo = 0;
+
+        if (antiguedad > 5)
+        {
+            consumo = (kilometros / kilometrosPorLitro) + ((kilometros / 15) * litrosExtra);
+        }
+        else
+        {
+            consumo = kilometros / kilometrosPorLitro;
+        }
+
+        return consumo;
     }
 }
